@@ -1,0 +1,11 @@
+# Repetion
+
+- ( * = zero or more / zero ou plus )
+- ( + = one  or more / un ou plus )
+
+
+  Regular expression      string          Match?    Comments
+    /a*bc/                   abc            OK       (apres * les characters se repentent 0 ou plusieurs fois)
+    /a*bc/                   bc             OK
+    /a+bc/                   bc             NO       (apres + les cahracters se repetent une ou plusieurs fois)
+    /a+bc/                   aaaaabc        OK

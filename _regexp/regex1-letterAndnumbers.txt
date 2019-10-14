@@ -1,0 +1,29 @@
+# Testing https://www.phpliveregex.com/
+
+
+# Simple character matching
+* Everithing is a character: letters, numbers, punctuation etc..
+
+- Letters
+  Regular expression      string      Match?    Comments
+    /abc/                   abc         OK         ( car la chaine contient a,b,c)
+    /abc/                   abcdef      OK            idem
+    /abc/                   bcde        NO         ( car la chaine ne contient pas a,b,c)
+
+- Numbers
+    /2:3/                   12:34:56    OK         ( car la chaine contient 2:3 )
+
+
+
+ # Metacharacters
+
+ \d : any digit from 0 to 9.
+ \w : any character from a to z, A to Z, 0 to 9
+ \s : any whitespace character (space, tab, etc.)
+
+
+ Regular expression    String      Match
+      /ab\d/            ab23        OK
+      /abc\d/           ab23        NO
+      /\d\d/            ab23        OK
+      /\w\s\d/          ab 34       OK

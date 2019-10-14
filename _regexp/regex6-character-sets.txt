@@ -1,0 +1,9 @@
+# Character sets
+* [] = Match one of any of the characters in the brackets, e.g. [abc] will
+match a,b or c and nothing else:
+
+  Regular expression     String          Match ?
+    /a[123]b/              a2b             OK
+    /a[123]b/              a3b             OK
+    /a[123]b/              a4b             NO ( 4 pas compris entre 1 et 3 )
+    /a[123]+b/             a321322b        OK

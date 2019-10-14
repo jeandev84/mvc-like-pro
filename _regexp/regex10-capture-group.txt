@@ -1,0 +1,9 @@
+Capture groups in regular expressions
+ * () = capture the regular expression inside the parentheses (the subpattern) to a capture group.
+
+ preg_match($reg_exp, $string, $matches)
+
+ $reg_exp              $string      $matches
+ /a[123]+b/              a222b        [ 0 => "a222b" ]
+ /a([123]+)b/            a222b        [ 0 => "a222b" , 1 => "222"]
+ /([a-zA-Z]+) (\d+)/     Jan 1992     [ 0 => "Jan 1992", 1 => "Jan", 2 => "1992"]

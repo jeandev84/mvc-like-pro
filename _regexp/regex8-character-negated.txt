@@ -1,0 +1,11 @@
+# Negated character sets
+* [^  ] = negate the character class:
+match any one character "except" for the characters specified including ranges:
+
+  Regular expression          String          Match ?
+     /a[^123]b/                 a2b             NO
+     /a[^123]b/                 a4b             OK
+     /[^a-z]+/                  hello           NO
+     /[^a-z]+/                  HELLO           OK
+
+

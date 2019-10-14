@@ -1,0 +1,9 @@
+# Character ranges
+* [ - ] = specify a range of characters inside a character set, e.g. [0-9]
+will match a single digit between 0 and 9, and nothing else:
+
+  Regular expression         String          Match ?
+     /a[1-5]b/                 a2b             OK
+     /a[1-5]b/                 a6b             NO
+     /[a-z0-9 ]+/              hello there     OK
+

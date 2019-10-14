@@ -1,0 +1,7 @@
+# Case sensitive modifier
+ * Patterns are case sensitive.
+   Adding the 'i' modifier after the regular expression makes it case insensitive:
+
+   Regular expression         String          Match ?
+      /abc/                    abc               OK
+      /abc/                    Abc               NO

@@ -1,0 +1,15 @@
+# The start and end of the string
+
+* ^ = the start of the string
+* $ = the end of the string
+
+Start
+  Regular expression      string          Match?    Comments
+    /^abc/                   abc            OK       (la chaine comprends abc)
+    /^abc/                   abcdef         OK       (la chaine est debutee par abc)
+    /^abc/                   123abc         NO       (la chaine ne debute pas par abc)
+
+End
+    /abc$/                   123abc         OK       (la chaine se termine par abc)
+    /^abc$/                   abc           OK       (la chaine commence et se termine par abc)
+    /^abc$/                   abcdef        NO       (la chaine ne commence pas et ne se termine pas par abc)

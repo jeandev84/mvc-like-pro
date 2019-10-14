@@ -1,0 +1,12 @@
+Regular expression matching in PHP
+
+* preg_match($reg_exp, $string)
+
+preg_match("/[a-z]+/", "abcd") => 1
+preg_match("/[a-z]+/", "1234") => 0
+
+
+* preg_match($reg_exp, $string, $matches)
+
+preg_match("/[a-z]+/", "abcd", $matches)
+  $matches => ["abcd"]

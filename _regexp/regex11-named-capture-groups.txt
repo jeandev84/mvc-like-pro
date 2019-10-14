@@ -1,0 +1,15 @@
+# Named capture groups
+
+* (?<name>regex) = give the capture group a "name":
+
+ preg_match($reg_exp, $string, $matches)
+
+ $reg_exp                               $string          $matches
+ /([a-zA-Z]+) (\d+)/                    Jan 1992       [ 0 => "Jan 1992", 1 => "Jan", 2 => "1992"]
+ /(?<month>[a-zA-Z]+) (?<year>\d+)/     Jan 1992       [ ...,
+                                                         "month" => "Jan",
+                                                         "year" => "1992"
+                                                       ]
+
+
+

@@ -1,0 +1,15 @@
+# Wildcards
+
+* (.= match any single character: letter, number, whitespace etc.)
+* ( \ = match metacharacters by escaping them )
+
+
+  Regular expression         String          Match ?
+     /ab.de/                 abcde             OK
+     /ab.de/                 ab4de             OK
+     /ab.de/                 ab de             OK
+     /ab.de/                 abde              NO
+     /abc.*/                 abcdef            OK
+     /abc.*/                 abc               OK
+     /abc./                  abcd              OK   (match abcd)
+     /abc\./                 abcd              NO   (don't match abcd)
