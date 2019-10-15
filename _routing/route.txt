@@ -1,0 +1,68 @@
+Routes with variables
+ - Adding routes with variables:
+
+   $router->add('posts/index', [
+      'controller' => 'Posts',
+      'action' => 'index'
+   ]);
+
+   $router->add('{controller}/{action}');
+
+
+
+Processing the route containing variables
+  . To match the route to the request URL, it needs to be converted to a regular expression:
+      $router->add('{controller}/{action}');
+
+      /^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)$/
+
+
+Turning the route into a regular expression
+
+      {controller}/{action}
+
+      preg_replace('/\//', '\\/', $route);
+
+      {controller}\/{action}
+
+
+      preg_replace('/\{([a-z]+)}/', '(?P<\1>[a-z-]+)', $route)
+
+      (?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)
+
+      $route = '/^' . $route . '$/';
+
+
+      /^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)$/
+
+
+
+# REST (For This case of route path)
+
+http://site.loc/posts/123/edit
+http://site.loc/users/456/show
+http://site.loc/products/789/delete
+$router->add('/{controller}/{id}/{action}');
+
+{controller}/{action}
+
+preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
+
+(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)
+
+
+# Custom regular expression
+  - Define an optional regular expression for the variable:
+
+     $router->add('{controller}/{id:\d+}/{action}');
+                   [a-z-]+       \d+      [a-z-]+
+
+
+     /{controller}/{id:\d+}/{action}
+
+     preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);
+
+
+     /{controller}/(?P<id>\d+)/{action)
+
+

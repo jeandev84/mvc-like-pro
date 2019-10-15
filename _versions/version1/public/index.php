@@ -20,22 +20,15 @@ $router = new \Framework\Routing\Router();
 // echo get_class($router);
 
 // Add the routes
-# http://localhost:8000/products/show
-# http://localhost:8000/posts/add-new
-# http://localhost:8000/posts/123/edit
-
-
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('posts', ['controller' => 'Posts', 'action' => 'index']);
 // $router->add('posts/new', ['controller' => 'Posts', 'action' => 'new']);
 $router->add('{controller}/{action}');
-$router->add('{controller}/{id:\d+}/{action}');
-
-// $router->add('admin/{action}/{controller}');
+$router->add('admin/{action}/{controller}');
 
 
 // Display the routing table
-debug($router->getRoutes());
+// debug($router->getRoutes());
 
 
 // Match the requested route

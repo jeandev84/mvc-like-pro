@@ -1,0 +1,55 @@
+http://site.loc/controller/action
+
+http://site.loc/posts/index
+http://site.loc/posts/new
+http://site.loc/blog/index
+http://site.loc/products/list
+
+# REST-API (GET, POST, PUT, DELETE)
+/list
+/show (/view)
+/put
+/delete
+
+
+http://site.loc/controller/action
+'' => '^/',
+'controller' => '/^[a-z-]+/'
+'controller/' => '/^[a-z-]+\//' for escape slashes
+'controller/action' => '/^[a-z-]+\/[a-z-]+/'
+'controller/action' => '/^[a-z-]+\/[a-z-]+$/'
+'controller/action' => '/^([a-z-]+)\/([a-z-]+)$/'
+'controller/action' => '/^(?P<controller>[a-z-]+)\/(?P<action>[a-z-]+)$/'
+
+preg_match($reg_exp, 'posts/index', $matches)
+[
+  1 => "posts",
+  2 => "index"
+]
+
+
+preg_match($reg_exp, "posts/index", $matches)
+
+[
+  "controller" => "posts",
+  "action" => "index"
+]
+
+# Regular expression replacing in php
+
+$result = preg_replace($regx_exp, $replacement, $string);
+
+- Searches $string for matches to $reg_exp and replaces them with $replacement
+
+Ex:
+
+$reg_exp       $replacement      $string
+ /abc/             def              abc            ===> def
+ /\d+/             --              abc123def       ===> abc--def
+ /\s+/             ,               a b  c   d      ===> a,b,c,d
+
+Backreferences to capture groups
+  Refer to the text in a capture group \1, \2 and so on:
+ $reg_exp               $replacement            $string
+ /ab(c)/                     \1de                 abc                     ===> cde
+ /(\w+) and (\w+)/           \1 or \2            Jack and  Jill           ===> Jack or Jill
