@@ -1,0 +1,85 @@
+Addendum: fix for a potential security bug introduced with the action filters
+Adding the action filters to the framework has introduced a potential security hole. Before I explain the problem, let's go over how the action filters work:
+
+Action filters
+We used the __call  magic method to add action filters to our controller actions. The before  action filter can be used to run code before every action method in a controller. To achieve this, we changed the name of the action methods in our controllers to have the "Action" suffix. So for example an index action would actually be a method called indexAction .
+
+When a request comes into the framework, the Router will create a controller object, then try to call an action method on that object. The name of this action method doesn't contain the "Action" suffix, so in the Core/Controller class, the __call  method will add "Action" to the end of the action name before calling the method.
+
+For example, let's say we have this route in our application:
+
+$router->add('{controller}/{action}');
+
+and we access the URL
+
+http://localhost/posts/index
+
+The router will match the {controller}  part of the route to "posts", and the {action}  part of the route to "index". It will create a controller object of the class "Posts", and then execute the "index" method on that object.
+
+The controller class however doesn't contain a method called "index", rather a method called "indexAction". When the router calls the index  method on the controller, the __call  method is executed, which adds the "Action" suffix and actually calls the indexAction  method.
+
+In this same __call  method, the before  method is executed before the indexAction  method is called. One of the uses for this is to require a user to login before they can access the requested method. For example, if a user tries to access this URL:
+
+http://localhost/posts/index
+
+and in the before  filter method you're checking to see if they've logged in, for example using the session:
+
+protected function before()
+{
+    if ( ! isset($_SESSION["user_id"])) {
+        return false;
+    }
+}
+If they haven't logged in, then the before filter returns false and they don't get access to the originally requested method. They have to login first. Once they've logged in, the before filter will let them access that method.
+
+This is where the potential security problem is.
+
+The security hole
+The before filter will prevent a user accessing the indexAction  method if they're not logged in when they try the following URL:
+
+http://localhost/posts/index
+
+However, if the user tries the following URL:
+
+http://localhost/posts/indexAction
+
+then the before filter is bypassed and the action will run. This is because this method exists, so the __call  method doesn't run. The action method is executed directly, so if login is being required in the before filter, this method could be executed if the user isn't logged in.
+
+Note that this is only a problem if someone knows how the framework works, and the action is coming from a variable in the route.
+
+The fix
+There are two ways to fix it. One would be to make all the action methods protected:
+
+protected function indexAction()
+{
+   ...
+}
+So they can't be called directly. However it would be easy to forget to do this.
+
+A better fix is to not allow the action coming from the URL to contain the "Action" suffix. We do that in the dispatch  method in the router. At the moment we have this code:
+
+if (is_callable([$controller_object, $action])) {
+    $controller_object->$action();
+} else {
+    throw new \Exception("Method $action (in controller $controller) not found");
+}
+It turns out that since we introduced the __call  magic method in the controller, we don't actually need the call to is_callable , as this will now always return true. So we can replace this line with a check that the action name doesn't end in "Action", and we can also change the error message:
+
+if (preg_match('/action$/i', $action) == 0) {
+    $controller_object->$action();
+} else {
+    throw new \Exception("Method $action in controller $controller cannot be called directly - remove the Action suffix to call this method");
+}
+This code uses the preg_match function to check that the name of the action doesn't end in "Action" (or "action" - the "i" flag means it's case insensitive). If it doesn't, then the method is called. If it does, then an exception is raised.
+
+So with this change, if someone tries to access the following URL:
+
+http://localhost/posts/indexAction
+
+an exception is raised. The following URL however still works as it should:
+
+http://localhost/posts/index
+
+A simple fix to close the potential security hole. Updated code is attached to this lecture.
+
+Ressources pour cette session

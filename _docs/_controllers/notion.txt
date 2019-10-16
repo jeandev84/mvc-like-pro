@@ -1,0 +1,104 @@
+# Dynamically calling methods
+
+* To call a method
+   $post = new Post();
+   $post->save();
+
+* To call a method based on a variable :
+    $method = "save";
+    $post->{$method}();
+
+
+class Post
+{
+    public function save()
+    {
+
+    }
+
+}
+
+
+# Passing parameters
+
+class Post
+{
+
+    public function save($arg1, $arg2)
+    {
+
+    }
+}
+
+* To call a method and pass parameters to it:
+
+$post = new Post();
+call_user_func_array([$post, "save"], [123, "abc"]);
+
+
+# Error handling
+
+* To check if the class exists before creating an object
+
+   $class_name = "Post";
+
+   if(class_exists($class_name))
+   {
+       $post = new $class_name();
+   }
+
+ * To check the method exists, and is public before calling it:
+
+  $post = new Post();
+  $method = "save";
+
+  if(is_callable([$post, $method]))
+  {
+      $post->$method();
+  }
+
+  # Dispatching
+
+  - Routing = asking for directions
+  - Dispatching = following those directions
+
+
+  The dispatching step is going to create a controller object
+  and run the action method.
+
+
+# Get the controller class from the route
+  - Router will provide a controller parameter, taken from the URL
+  - Words separated in the URL by hyphens
+  - Controller classes are named using StudlyCaps (PSR-1 coding standard)
+
+
+Route(e.g. /{controller}/{action})               Controller
+                                       Parameter           Class
+/posts/index                             posts               Posts
+/products/add-new                        products            Products
+/posts-authors/list                      post-authors        PostAuthors
+
+
+# Get the action method name from the route
+    - Router will provide a controller parameter, taken from the URL
+    - Words separated in the URL by hyphens
+    - Action methods are named using camelCase
+
+
+  Route(e.g. /{controller}/{action})               Controller
+                                         Parameter           Method name
+  /posts/index                             index               index
+  /products/add-new                        add-new             addNew
+  /posts-authors/list                      list                list
+
+#=============================================================================================
+
+Custom route variables
+
+http://site.loc/posts/123/edit
+http://site.loc/users/456/show
+http://site.loc/products/769/delete
+
+
+$router->add('/{controller}/{id}/{action}');

@@ -7,7 +7,7 @@
 function debug($var, $die = false)
 {
     echo '<pre>';
-    htmlspecialchars(print_r($var));
+    echo htmlspecialchars(print_r($var));
     echo '</pre>';
     if($die) die;
 }

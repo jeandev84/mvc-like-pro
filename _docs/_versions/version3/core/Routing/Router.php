@@ -2,8 +2,6 @@
 namespace Framework\Routing;
 
 
-use Exception;
-
 /**
  * Class Router
  * @package Framework\Routing
@@ -101,7 +99,6 @@ class Router
      * @param string $url The route URL
      *
      * @return void
-     * @throws Exception
      */
     public function dispatch($url)
     {
@@ -109,14 +106,9 @@ class Router
 
         if ($this->match($url)) {
             $controller = $this->params['controller'];
-            $controller = $this->convertToStudlyCaps($controller);
-            /*
             $controller = sprintf('App\\Controllers\\%sController',
                 $this->convertToStudlyCaps($controller)
             );
-            */
-            $controller = $this->getNamespace() . sprintf('%sController', $controller);
-            /* die($controller); */
 
             if (class_exists($controller)) {
                 $controller_object = new $controller($this->params);
@@ -124,30 +116,12 @@ class Router
                 $action = $this->params['action'];
                 $action = $this->convertToCamelCase($action);
 
-                /*
-                    So with this change, if someone tries to access the following URL:
-                    http://localhost/posts/indexAction
-                    an exception is raised. The following URL however still works as it should:
-                    http://localhost/posts/index
-                 */
-                if (preg_match('/action$/i', $action) == 0)
-                {
-                    $controller_object->$action();
-
-                } else {
-                    throw new Exception(
-                        "Method $action in controller $controller cannot be called directly - remove the Action suffix to call this method"
-                    );
-                }
-
-                /*
                 if (is_callable([$controller_object, $action])) {
                     $controller_object->$action();
 
                 } else {
                     echo "Method $action (in controller $controller) not found";
                 }
-                */
             } else {
                 echo "Controller class $controller not found";
             }
@@ -218,23 +192,5 @@ class Router
         }
 
         return $url;
-    }
-
-
-    /**
-     * Get the namespace for the controller class. The namespace defined in the
-     * route parameters is added if present.
-     *
-     * @return string The request URL
-     */
-    protected function getNamespace()
-    {
-        $namespace = 'App\Controllers\\';
-
-        if (array_key_exists('namespace', $this->params)) {
-            $namespace .= $this->params['namespace'] . '\\';
-        }
-
-        return $namespace;
     }
 }
