@@ -3,7 +3,6 @@ namespace App\Controllers;
 
 
 use Framework\Routing\Controller;
-use Framework\Templating\View;
 
 /**
  * Posts Controller
@@ -21,11 +20,8 @@ class PostsController extends Controller
      */
      public function indexAction()
      {
-         /*
          echo 'Hello from : '. __METHOD__ ;
          echo '<p>Query string parameters: <pre>'. htmlspecialchars(print_r($_GET, true)) . '</pre></p>';
-         */
-         View::renderTemplate('Posts/index.html');
      }
 
 

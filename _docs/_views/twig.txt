@@ -1,0 +1,25 @@
+Addendum: How to easily fix a potential exception when rendering a Twig template
+A recent update to the Twig template library might cause an error when rendering a template.
+
+You might see an error like this:
+
+Fatal error
+Uncaught exception: 'ErrorException'
+Message: 'file_get_contents(App/Views/Home/index.html): failed to open stream: No such file or directory'
+The problem occurs when creating the Twig environment and passing in the directory where the Twig templates are located.
+
+To fix it, the Core/View.php file needs to be changed, specifically in the renderTemplate  method.
+
+Instead of this line:
+
+$loader = new \Twig_Loader_Filesystem('../App/Views');
+
+you need to change it to this:
+
+$loader = new \Twig_Loader_Filesystem(dirname(__DIR__) . '/App/Views');
+
+All this does is set the template directory, relative to the Core directory, using a different method: the __DIR__ magic constant returns the directory of the current script (in this case Core), and the dirname function returns the parent directory (in this case, the root of our framework).
+
+Updated code is attached to this lecture.
+
+As always, if you have any problems, please let me know!

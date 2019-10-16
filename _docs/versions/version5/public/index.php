@@ -4,12 +4,6 @@
  * PHP version 7.*
  */
 
-/**
- * Define some constantes
- */
-define('ROOT', dirname(__DIR__));
-define('DS', DIRECTORY_SEPARATOR);
-
 
 /**
  * Autoloading
@@ -19,12 +13,10 @@ require '../vendor/autoload.php';
 
 
 /**
- * Twig
+ * Define some constantes
  */
-/*
-require_once ROOT.'/vendor/Twig/lib/Twig/Autoloader.php';
-Twig_Autoloader::register();
-*/
+define('ROOT', dirname(__DIR__));
+define('DS', DIRECTORY_SEPARATOR);
 
 
 

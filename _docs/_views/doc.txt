@@ -1,0 +1,29 @@
+# Views (Presentation code)
+
+Views are what the user sees on the screen
+They present data to the user.
+
+# View files
+- Contain PHP and HTML, but just enough PHP to display data.
+- Easy for a designer to work on the view files separately
+
+
+This code
+<p><?= htmlspecialchars($name) ?></p>
+
+replaced by
+<p>{{ name }</p>
+
+==============================
+Template Engines:
+==============================
+
+Twig : http://twig.sensiolabs.org/
+Smarty : http://www.smarty.net/
+Blade (Laravel) : https://laravel.com/docs/blade
+Volt (Phalcon) : https://docs.phalconphp.com/en/latest/reference/volt.html
+
+#============================================
+In this Framework we'll use Twig
+
+$ composer require twig/twig:~1.0

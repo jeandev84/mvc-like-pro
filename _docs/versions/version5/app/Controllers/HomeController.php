@@ -47,17 +47,10 @@ class HomeController extends Controller
     public function indexAction()
     {
          // echo 'Hello from ' . __METHOD__ . "<br>";
-        /*
          View::render('Home/index.php', [
              'name' => 'Jean-Claude',
              'colours' => ['red', 'green', 'blue']
          ]);
-        */
-
-        View::renderTemplate('Home/index.html', [
-            'name' => 'Jean-Claude',
-            'colours' => ['red', 'green', 'blue']
-        ]);
     }
 
     /**
