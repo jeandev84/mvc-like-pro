@@ -1,0 +1,10 @@
+# Sending status codes with exceptions
+
+ - We can throw exceptions with codes:
+   throw new Exception("Route not found", 404);
+
+  - Get the code from the exception:
+   $code = $exception->getCode();
+
+  - Set the HTTP response code:
+    http_response_code(404);

@@ -1,0 +1,84 @@
+# Errors
+
+- Warning Error
+
+$divisor = 0;
+
+$i = 1 / $divisor;
+
+Warning: Division by zero
+
+# Triggering errors manually
+
+- Fatal Error
+
+if($divisor == 0)
+{
+   trigger_error("Cannot divide by zero", E_USER_ERROR);
+}
+
+# Handling errors
+
+function myErrorHandler($num, $str)
+{
+   echo "Custom error: [$num] $str";
+}
+
+set_error_handler("myErrorHandler");
+
+trigger_error("Something went wrong");
+
+
+Custom error: [1024] Something went wrong
+
+# Exceptions
+
+$datetime = new DateTime("invalid time string");
+
+Fatal error: Uncaught exception ... Failed to parse time.
+
+
+# Raising execeptions
+
+if($divisor == 0)
+{
+   throw new Exception("Cannot divide by zero");
+}
+
+Fatal error Uncaught exception ... Cannot divide by zero
+
+# Handling exceptions
+
+try {
+   $datetime = new Datetime("invalid time string");
+} catch (Exception $e) {
+   die("Problem: " . $e->getMessage());
+}
+
+Problem: Failed to parse time
+
+--------------
+
+function myExceptionHandler($e)
+{
+  echo "Custom exception: " . $e->getMessage();
+}
+
+set_exception_handler("myExceptionHandler");
+
+throw new Exception("Something went wrong");
+
+
+Custom exception: Something went wrong
+
+
+# Converting errors to exceptions
+
+
+function myErrorHandler($level, $text, $file, $line)
+{
+   throw new ErrorException($text, 0, $level, $file, $line);
+}
+
+set_error_handler("myErrorHandler");
+
