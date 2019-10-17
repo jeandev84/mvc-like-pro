@@ -2,7 +2,7 @@
 namespace App\Controllers;
 
 
-use App\Models\Post;
+use App\Models\User;
 use Framework\Routing\Controller;
 use Framework\Templating\View;
 
@@ -30,7 +30,7 @@ class PostsController extends Controller
          echo '<p>Query string parameters: <pre>'. htmlspecialchars(print_r($_GET, true)) . '</pre></p>';
          */
 
-         $posts = Post::getAll();
+         $posts = User::getAll();
          View::renderTemplate('Posts/index.html', compact('posts'));
      }
 

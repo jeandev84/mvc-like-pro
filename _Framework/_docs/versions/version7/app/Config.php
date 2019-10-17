@@ -21,20 +21,20 @@ class Config
       * Database name
       * @var string
      */
-     const DB_NAME = 'mvclikeprologin';
+     const DB_NAME = 'mvclikepro';
 
      /**
       * Database user
       * @var string
      */
-     const DB_USER = 'root'; // mvcuser
+     const DB_USER = 'root';
 
 
     /**
      * Database password
      * @var string
      */
-     const DB_PASSWORD = ''; // 123456
+     const DB_PASSWORD = '';
 
 
      /**

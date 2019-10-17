@@ -1,0 +1,17 @@
+# Foreign key relationships
+User
+dave@example.com
+Dave
+
+
+Course
+dave@example.com
+PHP MVC
+
+
+Post
+dave@example.com
+Hello world
+
+- ManyToMany Record
+-

@@ -3,12 +3,6 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-<h1>Welcome</h1>
-<p>Hello from a Twig template, {{ name }}!</p>
-
-<ul>
-    {%  for colour in colours %}
-    <li>{{ colour }}</li>
-    {% endfor %}
-</ul>
+    <h1>Welcome</h1>
+    <a href="/signup/new">Sign up</a>
 {% endblock %}
