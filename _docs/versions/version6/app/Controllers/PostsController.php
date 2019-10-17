@@ -2,7 +2,6 @@
 namespace App\Controllers;
 
 
-use App\Models\Post;
 use Framework\Routing\Controller;
 use Framework\Templating\View;
 
@@ -26,9 +25,7 @@ class PostsController extends Controller
          echo 'Hello from : '. __METHOD__ ;
          echo '<p>Query string parameters: <pre>'. htmlspecialchars(print_r($_GET, true)) . '</pre></p>';
          */
-
-         $posts = Post::getAll();
-         View::renderTemplate('Posts/index.html', compact('posts'));
+         View::renderTemplate('Posts/index.html');
      }
 
 

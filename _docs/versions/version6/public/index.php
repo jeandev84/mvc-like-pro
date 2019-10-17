@@ -22,8 +22,7 @@ require '../vendor/autoload.php';
  * Twig
  */
 /*
- * Manually install Twig
-require_once ROOT.'/vendor/twig/twig/lib/Twig/Autoloader.php';
+require_once ROOT.'/vendor/Twig/lib/Twig/Autoloader.php';
 Twig_Autoloader::register();
 */
 

@@ -1,0 +1,22 @@
+# Simple inserts and updates
+
+$count = $db->exec("INSERT INTO posts(title, content) VALUES ('Article 1', 'How intersting!')");
+$count = $db->exec("UPDATE posts SET title = 'New' WHERE title = 'Old'");
+
+# SELECT
+
+$id = 123;
+
+$sql = "SELECT title FROM posts WHERE id = :postID";
+$stmt = $db->prepare($sql);
+$stmt->bindParam(':postID', $id, PDO::PARAM_INT);
+$stmt->execute();
+
+# INSERT
+
+$sql = "INSERT INTO posts(title, content) VALUES (:title, :content)";
+$stmt = $db->prepare($sql);
+$stmt->bindParam(':title', 'Article 1');
+$stmt->bindParam(':content', "That's nice!");
+$stmt->execute();
+
