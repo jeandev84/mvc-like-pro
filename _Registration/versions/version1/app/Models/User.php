@@ -91,12 +91,15 @@ class User extends Model
         if (filter_var($this->email, FILTER_VALIDATE_EMAIL) === false) {
             $this->errors[] = 'Invalid email';
         }
-
-        if (static::emailExists($this->email)) {
+        if ($this->emailExists($this->email)) {
             $this->errors[] = 'email already taken';
         }
 
         // Password
+        if ($this->password != $this->password_confirmation) {
+            $this->errors[] = 'Password must match confirmation';
+        }
+
         if (strlen($this->password) < 6) {
             $this->errors[] = 'Please enter at least 6 characters for the password';
         }
@@ -118,7 +121,7 @@ class User extends Model
      *
      * @return boolean  True if a record already exists with the specified email, false otherwise
      */
-    public static function emailExists($email)
+    protected function emailExists($email)
     {
         $sql = 'SELECT * FROM users WHERE email = :email';
 
