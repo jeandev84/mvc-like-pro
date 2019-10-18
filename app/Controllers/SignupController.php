@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 
 use App\Models\User;
+use Framework\Http\Redirect;
 use Framework\Routing\Controller;
 use Framework\Templating\View;
 
@@ -38,10 +39,31 @@ class SignupController extends Controller
      */
      public function createAction()
      {
-          /* debug($_POST); */
          $user = new User($_POST);
-         $user->save();
 
-         View::renderTemplate('Signup/success.html');
+         if($user->save())
+         {
+             /* View::renderTemplate('Signup/success.html'); */
+             Redirect::to('/signup/success');
+         }else{
+              /* debug($user->errors); */
+              View::renderTemplate('Signup/new.html', [
+                  'user' => $user
+              ]);
+         }
+     }
+
+
+    /**
+     * Show the signup success page
+     *
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+     public function successAction()
+     {
+          View::renderTemplate('Signup/success.html');
      }
 }
