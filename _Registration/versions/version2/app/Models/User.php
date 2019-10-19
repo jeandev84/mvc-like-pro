@@ -35,7 +35,7 @@ class User extends Model
      *
      * @return void
      */
-    public function __construct($data = [])
+    public function __construct($data)
     {
           foreach ($data as $key => $value)
           {
@@ -139,36 +139,8 @@ class User extends Model
          $stmt = $db->prepare($sql);
          $stmt->bindValue(':email', $email, PDO::PARAM_STR);
 
-         /* $stmt->setFetchMode(PDO::FETCH_CLASS, 'App\Models\User'); */
-         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
-
          $stmt->execute();
 
          return $stmt->fetch();
      }
-
-
-
-     /**
-      * Authenticate a user by email and password
-      *
-      * @param string $email email address
-      * @param string $password password
-      *
-      * @return mixed The user object or false if authentication fails
-      */
-      public static function authenticate($email, $password)
-      {
-           $user = static::findByEmail($email);
-
-           if($user)
-           {
-                if(password_verify($password, $user->password_hash))
-                {
-                    return $user;
-                }
-           }
-
-           return false;
-      }
 }

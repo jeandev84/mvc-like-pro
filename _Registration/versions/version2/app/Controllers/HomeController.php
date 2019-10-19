@@ -3,7 +3,6 @@ namespace App\Controllers;
 
 
 use Framework\Routing\Controller;
-use Framework\Sessions\Session;
 use Framework\Templating\View;
 
 
@@ -54,8 +53,6 @@ class HomeController extends Controller
              'colours' => ['red', 'green', 'blue']
          ]);
         */
-
-        /* debug(Session::all()); */
 
         View::renderTemplate('Home/index.html', [
             'name' => 'Jean-Claude',

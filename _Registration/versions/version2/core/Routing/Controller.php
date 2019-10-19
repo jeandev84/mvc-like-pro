@@ -3,7 +3,6 @@ namespace Framework\Routing;
 
 
 use Exception;
-use Framework\Http\Redirect;
 
 /**
  * Base Controller
@@ -75,18 +74,5 @@ abstract class Controller
       * @return void
      */
      protected function after() {}
-
-
-     /**
-      * Redirect to different page
-      *
-      * @param string $url The relative URL
-      *
-      * @return void
-      */
-      public function redirect($url)
-      {
-            return Redirect::to($url);
-      }
 
 }

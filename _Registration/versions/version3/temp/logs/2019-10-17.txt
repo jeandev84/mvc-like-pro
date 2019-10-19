@@ -1,0 +1,93 @@
+[17-Oct-2019 23:24:50 Europe/Moscow] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('products')
+#1 {main}
+Thrown in '/var/www/mvc-like-pro/core/Routing/Router.php' on line 157
+[17-Oct-2019 23:45:52 Europe/Moscow] Uncaught exception: 'Twig\Error\LoaderError' with message 'Unable to find template "Home/inde.html" (looked into: /var/www/mvc-like-pro/app/Views).'
+Stack trace: #0 /var/www/mvc-like-pro/vendor/twig/twig/src/Loader/FilesystemLoader.php(161): Twig\Loader\FilesystemLoader->findTemplate('Home/inde.html')
+#1 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(351): Twig\Loader\FilesystemLoader->getCacheKey('Home/inde.html')
+#2 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(445): Twig\Environment->getTemplateClass('Home/inde.html')
+#3 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(423): Twig\Environment->loadTemplate('Home/inde.html')
+#4 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(384): Twig\Environment->load('Home/inde.html')
+#5 /var/www/mvc-like-pro/core/Templating/View.php(57): Twig\Environment->render('Home/inde.html', Array)
+#6 /var/www/mvc-like-pro/app/Controllers/HomeController.php(58): Framework\Templating\View::renderTemplate('Home/inde.html', Array)
+#7 [internal function]: App\Controllers\HomeController->indexAction()
+#8 /var/www/mvc-like-pro/core/Routing/Controller.php(51): call_user_func_array(Array, Array)
+#9 /var/www/mvc-like-pro/core/Routing/Router.php(135): Framework\Routing\Controller->__call('index', Array)
+#10 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('')
+#11 {main}
+Thrown in '/var/www/mvc-like-pro/vendor/twig/twig/src/Loader/FilesystemLoader.php' on line 265
+[17-Oct-2019 23:46:23 Europe/Moscow] Uncaught exception: 'Twig\Error\LoaderError' with message 'Unable to find template "Home/inde.html" (looked into: /var/www/mvc-like-pro/app/Views).'
+Stack trace: #0 /var/www/mvc-like-pro/vendor/twig/twig/src/Loader/FilesystemLoader.php(161): Twig\Loader\FilesystemLoader->findTemplate('Home/inde.html')
+#1 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(351): Twig\Loader\FilesystemLoader->getCacheKey('Home/inde.html')
+#2 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(445): Twig\Environment->getTemplateClass('Home/inde.html')
+#3 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(423): Twig\Environment->loadTemplate('Home/inde.html')
+#4 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(384): Twig\Environment->load('Home/inde.html')
+#5 /var/www/mvc-like-pro/core/Templating/View.php(57): Twig\Environment->render('Home/inde.html', Array)
+#6 /var/www/mvc-like-pro/app/Controllers/HomeController.php(58): Framework\Templating\View::renderTemplate('Home/inde.html', Array)
+#7 [internal function]: App\Controllers\HomeController->indexAction()
+#8 /var/www/mvc-like-pro/core/Routing/Controller.php(51): call_user_func_array(Array, Array)
+#9 /var/www/mvc-like-pro/core/Routing/Router.php(135): Framework\Routing\Controller->__call('index', Array)
+#10 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('')
+#11 {main}
+Thrown in '/var/www/mvc-like-pro/vendor/twig/twig/src/Loader/FilesystemLoader.php' on line 265
+[17-Oct-2019 23:46:29 Europe/Moscow] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('products')
+#1 {main}
+Thrown in '/var/www/mvc-like-pro/core/Routing/Router.php' on line 157
+[17-Oct-2019 23:47:00 Europe/Moscow] Uncaught exception: 'Exception' with message 'No route matched.'
+Stack trace: #0 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('products')
+#1 {main}
+Thrown in '/var/www/mvc-like-pro/core/Routing/Router.php' on line 157
+[17-Oct-2019 23:47:06 Europe/Moscow] Uncaught exception: 'Exception' with message '71'
+Stack trace: #0 /var/www/mvc-like-pro/core/Routing/Router.php(135): Framework\Routing\Controller->__call('er', Array)
+#1 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('posts/er')
+#2 {main}
+Thrown in '/var/www/mvc-like-pro/core/Routing/Controller.php' on line 55
+[17-Oct-2019 23:48:41 Europe/Moscow] Uncaught exception: 'Twig\Error\LoaderError' with message 'Unable to find template "Home/inde.html" (looked into: /var/www/mvc-like-pro/app/Views).'
+Stack trace: #0 /var/www/mvc-like-pro/vendor/twig/twig/src/Loader/FilesystemLoader.php(161): Twig\Loader\FilesystemLoader->findTemplate('Home/inde.html')
+#1 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(351): Twig\Loader\FilesystemLoader->getCacheKey('Home/inde.html')
+#2 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(445): Twig\Environment->getTemplateClass('Home/inde.html')
+#3 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(423): Twig\Environment->loadTemplate('Home/inde.html')
+#4 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(384): Twig\Environment->load('Home/inde.html')
+#5 /var/www/mvc-like-pro/core/Templating/View.php(57): Twig\Environment->render('Home/inde.html', Array)
+#6 /var/www/mvc-like-pro/app/Controllers/HomeController.php(58): Framework\Templating\View::renderTemplate('Home/inde.html', Array)
+#7 [internal function]: App\Controllers\HomeController->indexAction()
+#8 /var/www/mvc-like-pro/core/Routing/Controller.php(51): call_user_func_array(Array, Array)
+#9 /var/www/mvc-like-pro/core/Routing/Router.php(135): Framework\Routing\Controller->__call('index', Array)
+#10 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('')
+#11 {main}
+Thrown in '/var/www/mvc-like-pro/vendor/twig/twig/src/Loader/FilesystemLoader.php' on line 265
+[17-Oct-2019 23:48:52 Europe/Moscow] Uncaught exception: 'Twig\Error\LoaderError' with message 'Unable to find template "Home/inde.html" (looked into: /var/www/mvc-like-pro/app/Views).'
+Stack trace: #0 /var/www/mvc-like-pro/vendor/twig/twig/src/Loader/FilesystemLoader.php(161): Twig\Loader\FilesystemLoader->findTemplate('Home/inde.html')
+#1 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(351): Twig\Loader\FilesystemLoader->getCacheKey('Home/inde.html')
+#2 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(445): Twig\Environment->getTemplateClass('Home/inde.html')
+#3 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(423): Twig\Environment->loadTemplate('Home/inde.html')
+#4 /var/www/mvc-like-pro/vendor/twig/twig/src/Environment.php(384): Twig\Environment->load('Home/inde.html')
+#5 /var/www/mvc-like-pro/core/Templating/View.php(57): Twig\Environment->render('Home/inde.html', Array)
+#6 /var/www/mvc-like-pro/app/Controllers/HomeController.php(58): Framework\Templating\View::renderTemplate('Home/inde.html', Array)
+#7 [internal function]: App\Controllers\HomeController->indexAction()
+#8 /var/www/mvc-like-pro/core/Routing/Controller.php(51): call_user_func_array(Array, Array)
+#9 /var/www/mvc-like-pro/core/Routing/Router.php(135): Framework\Routing\Controller->__call('index', Array)
+#10 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('')
+#11 {main}
+Thrown in '/var/www/mvc-like-pro/vendor/twig/twig/src/Loader/FilesystemLoader.php' on line 265
+[17-Oct-2019 23:50:25 Europe/Moscow] Uncaught exception: 'Exception' with message '71'
+Stack trace: #0 /var/www/mvc-like-pro/core/Routing/Router.php(135): Framework\Routing\Controller->__call('ss', Array)
+#1 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('posts/ss')
+#2 {main}
+Thrown in '/var/www/mvc-like-pro/core/Routing/Controller.php' on line 55
+[17-Oct-2019 23:54:39 Europe/Moscow] Uncaught exception: 'Exception' with message '71'
+Stack trace: #0 /var/www/mvc-like-pro/core/Routing/Router.php(135): Framework\Routing\Controller->__call('ss', Array)
+#1 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('posts/ss')
+#2 {main}
+Thrown in '/var/www/mvc-like-pro/core/Routing/Controller.php' on line 56
+[17-Oct-2019 23:54:51 Europe/Moscow] Uncaught exception: 'Exception' with message '71'
+Stack trace: #0 /var/www/mvc-like-pro/core/Routing/Router.php(135): Framework\Routing\Controller->__call('ee', Array)
+#1 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('posts/ee')
+#2 {main}
+Thrown in '/var/www/mvc-like-pro/core/Routing/Controller.php' on line 56
+[17-Oct-2019 23:55:31 Europe/Moscow] Uncaught exception: 'Exception' with message '71'
+Stack trace: #0 /var/www/mvc-like-pro/core/Routing/Router.php(135): Framework\Routing\Controller->__call('ee', Array)
+#1 /var/www/mvc-like-pro/public/index.php(53): Framework\Routing\Router->dispatch('posts/ee')
+#2 {main}
+Thrown in '/var/www/mvc-like-pro/core/Routing/Controller.php' on line 56

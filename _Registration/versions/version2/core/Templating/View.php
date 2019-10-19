@@ -52,10 +52,6 @@ class View
          {
              $loader = new \Twig_Loader_Filesystem(ROOT . '/app/Views');
              $twig = new \Twig_Environment($loader);
-
-             # add global variables to the view twig
-             $twig->addGlobal('session', $_SESSION);
-
          }
 
          echo $twig->render($template, $args);
