@@ -90,18 +90,17 @@ abstract class Controller
             return Redirect::to($url);
       }
 
-    /**
-     * Require the user to be logged in before giving access to the requested page.
-     * Remember the requested page for later, then redirect to the login page.
-     * This Method used for login User only ( it's usable method )
-     *
-     * @return void
-     * @throws Exception
-     */
+      /**
+       * Require the user to be logged in before giving access to the requested page.
+       * Remember the requested page for later, then redirect to the login page.
+       * This Method used for login User only ( it's usable method )
+       *
+       * @return void
+       */
       public function requireLogin()
       {
           // Block Accces if user does not log in
-          if(! Auth::getUser())
+          if(! Auth::isLoggedIn())
           {
               Auth::rememberRequestedPage();
 

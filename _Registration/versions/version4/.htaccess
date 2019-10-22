@@ -1,0 +1,7 @@
+# Apache Documentation:
+# https://httpd.apache.org/docs/2.4/mod/mod_rewrite.html#rewritecond
+<IfModule mod_rewrite.c>
+	RewriteEngine on
+	RewriteRule ^$ public/   [L]
+	RewriteRule (.*) public/$1 [L]
+</IfModule>

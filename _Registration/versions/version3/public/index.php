@@ -51,7 +51,7 @@ $router = new \Framework\Routing\Router();
 /** Add Routes */
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
 $router->add('login', ['controller' => 'Login', 'action' => 'new']);
-$router->add('logout', ['controller' => 'Logout', 'action' => 'destroy']);
+$router->add('logout', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('{controller}/{action}'); // default /controller/action
 
 

@@ -56,7 +56,7 @@ class View
 
              # add global variables to the view twig
              # $twig->addGlobal('session', $_SESSION);
-             # $twig->addGlobal('is_logged_in', Auth::isLoggedIn());
+             $twig->addGlobal('is_logged_in', Auth::isLoggedIn());
              $twig->addGlobal('current_user', Auth::getUser());
 
          }

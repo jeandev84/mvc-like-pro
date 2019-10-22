@@ -5,7 +5,9 @@
 {% block body %}
     <h1>Welcome</h1>
 
-    {% if current_user %}
+    <!-- {  % if(session.user_id) % } -->
+    {% if is_logged_in %}
+       <!-- Hello {{ user.name }}. -->
        Hello {{ current_user.name }}.
 
        <a href="/logout">Log out</a>
