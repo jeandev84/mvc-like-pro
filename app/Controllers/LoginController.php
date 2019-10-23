@@ -6,6 +6,7 @@ use App\Models\User;
 use Framework\Security\Auth;
 use Framework\Http\Request;
 use Framework\Routing\Controller;
+use Framework\Services\Flash;
 use Framework\Sessions\Session;
 use Framework\Templating\View;
 
@@ -27,7 +28,9 @@ class LoginController extends Controller
      */
      public function newAction()
      {
-          View::renderTemplate('Login/new.html');
+          View::renderTemplate('Login/new.html', [
+              'message' => $_GET['message'] ?? ''
+          ]);
      }
 
 
@@ -42,11 +45,7 @@ class LoginController extends Controller
      */
      public function createAction()
      {
-         /*
-         echo($_REQUEST['email'] . ', '. $_REQUEST['password']);
-         $user = User::findByEmail($_POST['email']);
-         debug($user); var_dump($user);
-         */
+
          $email = isset($_POST['email']) ? $_POST['email'] : null;
          $password = isset($_POST['password']) ? $_POST['password'] : null;
 
@@ -58,17 +57,23 @@ class LoginController extends Controller
              // Authentication user
              Auth::login($user);
 
+             // Flash message
+             Flash::addMessage('Login successful', Flash::WARNING);
+
              // redirect back() to home page
              # $this->redirect('/');
              $this->redirect(Auth::getReturnToPage());
 
          }else{
+
+             Flash::addMessage('Login unsuccessful, please try again');
+
              View::renderTemplate('Login/new.html', [
-                 'email' => $_POST['email']
+                 'email' => $_POST['email'] ?? ''
              ]);
          }
 
-         debug(Session::all());
+         /* debug(Session::all()); */
      }
 
 
@@ -82,7 +87,24 @@ class LoginController extends Controller
           // logout user
           Auth::logout();
 
-          // Redirect to home page (back())
-          $this->redirect('/');
+          // Redirect
+          $this->redirect('/login/show-logout-message');
+     }
+
+    /**
+      * Show a "logged out" flash message and redirect to the homepage. Necessary to use the flash messages
+      * as they use the session and at the end of the logout method (destroyAction) the session is destroyed
+      * so a new action needs to be called in order to use the session.
+      *
+      * @url  /login/show-logout-message
+      * @return void
+     */
+     public function showLogoutMessageAction()
+     {
+         // Add Message Flash
+         Flash::addMessage('Logout successful');
+
+         // Redirect to '/'
+         $this->redirect('/');
      }
 }

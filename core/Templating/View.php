@@ -3,6 +3,7 @@ namespace Framework\Templating;
 
 
 use Framework\Security\Auth;
+use Framework\Services\Flash;
 use mysql_xdevapi\Exception;
 
 /**
@@ -58,6 +59,7 @@ class View
              # $twig->addGlobal('session', $_SESSION);
              # $twig->addGlobal('is_logged_in', Auth::isLoggedIn());
              $twig->addGlobal('current_user', Auth::getUser());
+             $twig->addGlobal('flash_messages', Flash::getMessages());
 
          }
 

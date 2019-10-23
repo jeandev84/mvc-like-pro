@@ -5,6 +5,7 @@ namespace Framework\Routing;
 use Exception;
 use Framework\Http\Redirect;
 use Framework\Security\Auth;
+use Framework\Services\Flash;
 
 /**
  * Base Controller
@@ -103,10 +104,14 @@ abstract class Controller
           // Block Accces if user does not log in
           if(! Auth::getUser())
           {
+              // Add message flash
+              Flash::addMessage('Please login to access that page', Flash::INFO);
+
+              // Redirige l'utilisateur a l'address taper
               Auth::rememberRequestedPage();
 
               /* exit('Access denied'); */
-              $this->redirect('/login');
+              $this->redirect('/login?message=please+login+first');
           }
       }
 
