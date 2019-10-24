@@ -43,6 +43,9 @@ class SignupController extends Controller
 
          if($user->save())
          {
+
+             $user->sendActivationEmail();
+
              /* View::renderTemplate('Signup/success.html'); */
              Redirect::to('/signup/success');
          }else{
@@ -65,5 +68,33 @@ class SignupController extends Controller
      public function successAction()
      {
           View::renderTemplate('Signup/success.html');
+     }
+
+
+    /**
+     * Activate a new account
+     *
+     * @return void
+     * @throws \Exception
+     */
+     public function activateAction()
+     {
+         User::activate($this->route_params['token']);
+
+         $this->redirect('/signup/activated');
+     }
+
+
+    /**
+     * Show the activation success page
+     *
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+     public function activatedAction()
+     {
+          View::renderTemplate('Signup/activated.html');
      }
 }

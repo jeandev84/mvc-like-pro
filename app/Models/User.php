@@ -52,6 +52,7 @@ class User extends Model
      * Save the user model with the current property values
      *
      * @return void
+     * @throws \Exception
      */
     public function save()
     {
@@ -61,8 +62,13 @@ class User extends Model
         {
             $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
 
-            $sql = 'INSERT INTO users (name, email, password_hash) 
-               VALUES (:name, :email, :password_hash)';
+            $token = new Token();
+            $hashed_token = $token->getHash();
+            $this->activation_token = $token->getValue();
+
+
+            $sql = 'INSERT INTO users (name, email, password_hash, activation_hash) 
+               VALUES (:name, :email, :password_hash, :activation_hash)';
 
             $db = static::getDB();
             $stmt = $db->prepare($sql);
@@ -70,6 +76,7 @@ class User extends Model
             $stmt->bindValue(':name', $this->name, PDO::PARAM_STR);
             $stmt->bindValue(':email', $this->email, PDO::PARAM_STR);
             $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
+            $stmt->bindValue(':activation_hash', $hashed_token, PDO::PARAM_STR);
 
             return $stmt->execute();
         }
@@ -178,7 +185,7 @@ class User extends Model
       {
            $user = static::findByEmail($email);
 
-           if($user)
+           if($user && $user->is_active)
            {
                 if(password_verify($password, $user->password_hash))
                 {
@@ -316,7 +323,9 @@ class User extends Model
         $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
         $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
 
-        # Mail::send($this->email, 'Password reset', $text, $html);
+
+        // Send mail
+        Mail::send($this->email, 'Password reset', $text, $html);
     }
 
 
@@ -409,4 +418,53 @@ class User extends Model
 
           return false;
      }
+
+
+    /**
+     * Send an email to the user containing the activation link
+     *
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function sendActivationEmail()
+    {
+        $request = new Request();
+        $url = $request->url(
+            sprintf('/signup/activate/%s', $this->activation_token)
+        );
+
+        $text = View::getTemplate('Signup/activation_email.txt', ['url' => $url]);
+        $html = View::getTemplate('Signup/activation_email.html', ['url' => $url]);
+
+        Mail::send($this->email, 'Account activation', $text, $html);
+    }
+
+
+    /**
+     * Activate the user account with the specified activation token
+     *
+     * @param string $value Activation token from the URL
+     *
+     * @return void
+     * @throws \Exception
+     */
+    public static function activate($value)
+    {
+         $token = new Token($value);
+         $hashed_token = $token->getHash();
+
+         $sql = 'UPDATE users 
+                 SET is_active = 1,
+                     activation_hash = null
+                 WHERE activation_hash = :hashed_token';
+
+         $db = static::getDB();
+         $stmt = $db->prepare($sql);
+
+         $stmt->bindValue(':hashed_token', $hashed_token, PDO::PARAM_STR);
+
+         $stmt->execute();
+    }
 }
