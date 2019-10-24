@@ -2,6 +2,7 @@
 namespace Framework\Security;
 
 
+use App\Models\RememberedLogin;
 use App\Models\User;
 use Framework\Sessions\Session;
 
@@ -14,20 +15,30 @@ use Framework\Sessions\Session;
  */
 class Auth
 {
-     /**
-      * Login the user
-      *
-      * @param User $user The user model
-      *
-      * @return void
-      */
-      public static function login(User $user)
+    /**
+     * Login the user
+     *
+     * @param User $user The user model
+     *
+     * @param bool $remember_me
+     * @return void
+     */
+      public static function login(User $user, $remember_me = false)
       {
           // set true for delete all sessions
           session_regenerate_id(true);
 
           // store user identification in session
           Session::set('user_id', $user->id);
+
+          // if user checked remember_me, we'll store token in the database
+          if($remember_me)
+          {
+               if($user->rememberLogin())
+               {
+                   setcookie('remember_me', $user->remember_token, $user->expiry_timestamp, '/');
+               }
+          }
       }
 
 
@@ -59,6 +70,9 @@ class Auth
 
           // Finalyy destroy the session
           session_destroy();
+
+          // Forget login
+          static::forgetLogin();
       }
 
 
@@ -100,17 +114,88 @@ class Auth
        }
 
 
-       /**
-        * Get the current logged-in-user, from the session or the remember-me-cookie
-        *
-        * @return mixed The user model or null if not logged in
-        */
+    /**
+     * Get the current logged-in-user, from the session or the remember-me-cookie
+     *
+     * @return mixed The user model or null if not logged in
+     * @throws \Exception
+     */
        public static function getUser()
        {
              if(isset($_SESSION['user_id']))
              {
                  return User::findByID($_SESSION['user_id']);
+
+             }else{
+
+                 return static::loginFromRememberCookie();
              }
        }
 
+
+      /**
+       * Login the user from a remembered login cookie
+       *
+       * @return mixed The user model if login cookie found: null otherwise
+       * @throws \Exception
+      */
+      protected static function loginFromRememberCookie()
+      {
+           $cookie = $_COOKIE['remember_me'] ?? false;
+
+           if($cookie)
+           {
+               $remembered_login = RememberedLogin::findByToken($cookie);
+
+               if($remembered_login && ! $remembered_login->hasExpired())
+               {
+                    $user = $remembered_login->getUser();
+                    static::login($user, false);
+                    return $user;
+               }
+           }
+       }
+
+
+    /**
+     * Forget the remembered login, if present
+     *
+     * @return void
+     * @throws \Exception
+     */
+       protected static function forgetLogin()
+       {
+           $cookie = $_COOKIE['remember_me'] ?? false;
+
+           if($cookie)
+           {
+               $remembered_login = RememberedLogin::findByToken($cookie);
+
+               if($remembered_login)
+               {
+                   $remembered_login->delete();
+               }
+           }
+
+           setcookie('remember_me', '', time() - 3600); // set to expire in the post
+       }
 }
+
+# name, value, expire
+/*
+Set cookie:
+setcookie('example', 'hello', time() + 60 * 60 * 24 * 2);
+echo 'Cookie set.';
+*/
+
+/*
+Delete cookie:
+setcookie('example', '', time() - 3600);
+echo 'Cookie deleted';
+*/
+
+/*
+ * Set sub directory example and define domain path
+ * setcookie('subdir_example', 'hello', time() + 60 * 60 * 24 * 2, '/');
+ * echo 'Subdirectory cookie set';
+ */

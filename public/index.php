@@ -4,6 +4,9 @@
  * PHP version 7.*
  */
 
+/** Give cookie lifetime , it's give us to login user after closing browser **/
+ini_set('session.cookie_lifetime', '864000'); // ten days in seconds
+
 /**
  * Define some constantes
  */

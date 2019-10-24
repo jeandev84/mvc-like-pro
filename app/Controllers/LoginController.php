@@ -45,31 +45,40 @@ class LoginController extends Controller
      */
      public function createAction()
      {
+         $request = new Request();
+         $email = $request->post('email');
+         $password = $request->post('password');
+         $remember_me = isset($_POST['remember_me']);
 
-         $email = isset($_POST['email']) ? $_POST['email'] : null;
-         $password = isset($_POST['password']) ? $_POST['password'] : null;
+         // debug
+         /* debug($request->post()); */
 
+         // authenticate user
          $user = User::authenticate($email, $password);
 
          // if user authenticate correctly, we'll redirect to home page
          if($user)
          {
              // Authentication user
-             Auth::login($user);
+             Auth::login($user, $remember_me);
+
+             // Remember the login here
+
+             //
 
              // Flash message
-             Flash::addMessage('Login successful', Flash::WARNING);
+             Flash::addMessage('Login successful');
 
-             // redirect back() to home page
-             # $this->redirect('/');
+             // redirige l'utilisateur vers l'adresse qui a ete au par avant tape.
              $this->redirect(Auth::getReturnToPage());
 
          }else{
 
-             Flash::addMessage('Login unsuccessful, please try again');
+             Flash::addMessage('Login unsuccessful, please try again', Flash::WARNING);
 
              View::renderTemplate('Login/new.html', [
-                 'email' => $_POST['email'] ?? ''
+                 'email' => $request->post('email'),
+                 'remember_me' => $remember_me
              ]);
          }
 

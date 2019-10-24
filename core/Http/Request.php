@@ -46,13 +46,20 @@ class Request
         return $this->getParam($key, $_POST);
      }
 
-     /**
+    /**
      * @param $key
      * @param array $data
+     * @param null $default
      * @return array|mixed
      */
      private function getParam($key, array $data)
      {
          return isset($data[$key]) ? $data[$key] : $data;
      }
+
+
+    private function getParamAndDefault($key, array $data, $default = null)
+    {
+        return isset($data[$key]) ? $data[$key] : $default;
+    }
 }

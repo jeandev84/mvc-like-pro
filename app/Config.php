@@ -45,4 +45,11 @@ class Config
       * (false: will be generated log error file: in /temp/logs/2019-09-17.txt)
       */
       const SHOW_ERRORS = true; // false;
+
+
+      /**
+       * Secret key for hashing
+       * @var boolean
+       */
+      const SECRET_KEY = 'vtQqs0XI2ToGiE07GZ8FMuNhPvlh7Dj6'; // secret
 }
