@@ -1,0 +1,19 @@
+# Composer
+$ composer require phpmailer/phpmailer
+
+# GitHub Documentation
+https://github.com/PHPMailer/PHPMailer
+
+# WIKI
+https://github.com/PHPMailer/PHPMailer/wiki/Tutorial
+
+
+# Documentation
+https://phpmailer.github.io/PHPMailer/classes/PHPMailer.PHPMailer.PHPMailer.html
+
+
+# Mail Service
+@mailgun
+https://www.mailgun.com/
+
+$ composer require mailgun/mailgun-php php-http/guzzle6-adapter php-http/message

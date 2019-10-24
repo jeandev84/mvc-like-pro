@@ -48,22 +48,39 @@ class View
      */
      public static function renderTemplate($template, $args = [])
      {
-         static $twig = null;
-
-         if($twig === null)
-         {
-             $loader = new \Twig_Loader_Filesystem(ROOT . '/app/Views');
-             $twig = new \Twig_Environment($loader);
-
-             # add global variables to the view twig
-             # $twig->addGlobal('session', $_SESSION);
-             # $twig->addGlobal('is_logged_in', Auth::isLoggedIn());
-             $twig->addGlobal('current_user', Auth::getUser());
-             $twig->addGlobal('flash_messages', Flash::getMessages());
-
-         }
-
-         echo $twig->render($template, $args);
+         echo static::getTemplate($template, $args);
      }
+
+
+    /**
+     * Render a view template using Twig
+     *
+     * @param string $template The template file
+     * @param array $args Associative array of data to display in the view (optional)
+     *
+     * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public static function getTemplate($template, $args = [])
+    {
+        static $twig = null;
+
+        if($twig === null)
+        {
+            $loader = new \Twig_Loader_Filesystem(ROOT . '/app/Views');
+            $twig = new \Twig_Environment($loader);
+
+            # add global variables to the view twig
+            # $twig->addGlobal('session', $_SESSION);
+            # $twig->addGlobal('is_logged_in', Auth::isLoggedIn());
+            $twig->addGlobal('current_user', Auth::getUser());
+            $twig->addGlobal('flash_messages', Flash::getMessages());
+
+        }
+
+        return $twig->render($template, $args);
+    }
 
 }

@@ -2,8 +2,11 @@
 namespace App\Models;
 
 
+use App\Services\Mail;
 use Framework\Database\Model;
+use Framework\Http\Request;
 use Framework\Security\Encryption\Token;
+use Framework\Templating\View;
 use PDO;
 use PDOException;
 
@@ -225,4 +228,97 @@ class User extends Model
 
         return $stmt->execute();
     }
+
+
+    /**
+     * Send password reset instructions to the user specified
+     *
+     * @param string $email The email address
+     *
+     * @return void
+     */
+    public static function sendPasswordReset($email)
+    {
+         $user = static::findByEmail($email);
+
+         // if we'll find user
+         if($user)
+         {
+             // we'll start password reset process
+             if($user->startPasswordReset())
+             {
+                 // Send email here to user..
+                 $user->sendPasswordResetEmail();
+             }
+         }
+    }
+
+
+    /**
+     * Start the password reset process by generating a new token and expiry
+     *
+     * @return void
+     * @throws \Exception
+     */
+    protected function startPasswordReset()
+    {
+        $token = new Token();
+        $hashed_token = $token->getHash();
+        $this->password_reset_token = $token->getValue(); // generate a new token
+
+        $expiry_timestamp = time() + 60 * 60 * 2; // 2 hours from now
+
+        $sql = 'UPDATE users 
+                SET password_reset_hash = :token_hash,
+                    password_reset_expires_at = :expires_at
+                WHERE id = :id';
+
+        $db = static::getDB();
+        $stmt = $db->prepare($sql);
+
+        $stmt->bindValue(':token_hash', $hashed_token, PDO::PARAM_STR);
+        $stmt->bindValue(':expires_at', date('Y-m-d H:i:s', $expiry_timestamp), PDO::PARAM_STR);
+        $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+
+        return $stmt->execute();
+    }
+
+
+    /**
+     * Send password reset instructions in an email to the user
+     *
+     * @return void
+     */
+    protected function sendPasswordResetEmail()
+    {
+        /* $url = 'http://' . $_SERVER['HTTP_HOST'] . '/password/reset/' . $this->password_reset_token; */
+        $request = new Request();
+        $url = $request->url(
+            sprintf('/password/reset/%s', $this->password_reset_token)
+        );
+
+        $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
+        $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
+
+        Mail::send($this->email, 'Password reset', $text, $html);
+    }
+
+
+    /**
+     * Send password Reset Email
+     */
+    protected function sendPasswordResetEmailOLD()
+    {
+        /* $url = 'http://' . $_SERVER['HTTP_HOST'] . '/password/reset/' . $this->password_reset_token; */
+        $request = new Request();
+        $url = $request->url(
+            sprintf('/password/reset/%s', $this->password_reset_token)
+        );
+
+        $text = sprintf('Please click on the following URL to reset your password %s', $url);
+        $html = sprintf('Please click <a href="%s">here</a> to reset your password.', $url);
+
+        Mail::send($this->email, 'Password reset', $text, $html);
+    }
+
 }

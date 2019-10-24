@@ -46,6 +46,30 @@ class Request
         return $this->getParam($key, $_POST);
      }
 
+
+    /**
+     * Server
+     * @param null $key
+     * @return array|mixed
+     */
+     public function server($key = null)
+     {
+         return $this->getParam($key, $_POST);
+     }
+
+    /**
+     * Get URL
+     * @param bool $path
+     * @return string
+     */
+     public function url($path = false)
+     {
+         if($path) {
+             $path = '/'. trim($path, '/');
+         }
+         return sprintf('http://%s%s', $_SERVER['HTTP_HOST'], $path);
+     }
+
     /**
      * @param $key
      * @param array $data
@@ -58,8 +82,4 @@ class Request
      }
 
 
-    private function getParamAndDefault($key, array $data, $default = null)
-    {
-        return isset($data[$key]) ? $data[$key] : $default;
-    }
 }

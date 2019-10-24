@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 
+use App\Services\Mail;
 use Framework\Routing\Controller;
 use Framework\Security\Auth;
 use Framework\Sessions\Session;
@@ -34,6 +35,11 @@ class HomeController extends Controller
             'user' => Auth::getUser(), // current logged in user
         ]);
         */
+
+        // Send mail
+        # Mail::send('demo@gmail.com', 'Test', 'This is a test', '<h1>This is a test</h1>');
+
+        // show view
         View::renderTemplate('Home/index.html');
     }
 
