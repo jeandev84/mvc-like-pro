@@ -96,7 +96,7 @@ class User extends Model
             $this->errors[] = 'Invalid email';
         }
 
-        if (static::emailExists($this->email)) {
+        if (static::emailExists($this->email, $this->id ?? null)) {
             $this->errors[] = 'email already taken';
         }
 
@@ -119,12 +119,25 @@ class User extends Model
      * See if a user record already exists with the specified email
      *
      * @param string $email email address to search for
+     * @param null $ignore_id Return false anyway if the record found has this ID
      *
      * @return boolean  True if a record already exists with the specified email, false otherwise
      */
-    public static function emailExists($email)
+    public static function emailExists($email, $ignore_id = null)
     {
-        return self::emailExists($email) !== false;
+        /* return self::emailExists($email) !== false; */
+
+        $user = self::emailExists($email);
+
+        if($user)
+        {
+             if($user->id != $ignore_id)
+             {
+                 return true;
+             }
+        }
+
+        return false;
     }
 
 
@@ -288,6 +301,9 @@ class User extends Model
      * Send password reset instructions in an email to the user
      *
      * @return void
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
      */
     protected function sendPasswordResetEmail()
     {
@@ -300,16 +316,17 @@ class User extends Model
         $text = View::getTemplate('Password/reset_email.txt', ['url' => $url]);
         $html = View::getTemplate('Password/reset_email.html', ['url' => $url]);
 
-        Mail::send($this->email, 'Password reset', $text, $html);
+        # Mail::send($this->email, 'Password reset', $text, $html);
     }
 
 
     /**
      * Send password Reset Email
      */
+    /*
     protected function sendPasswordResetEmailOLD()
     {
-        /* $url = 'http://' . $_SERVER['HTTP_HOST'] . '/password/reset/' . $this->password_reset_token; */
+        // url = 'http://' . $_SERVER['HTTP_HOST'] . '/password/reset/' . $this->password_reset_token;
         $request = new Request();
         $url = $request->url(
             sprintf('/password/reset/%s', $this->password_reset_token)
@@ -320,5 +337,76 @@ class User extends Model
 
         Mail::send($this->email, 'Password reset', $text, $html);
     }
+    */
 
+    /**
+     * Find a user model by password reset token and expiry
+     *
+     * @param string $token Password reset token sent to user
+     *
+     * @return mixed User object if found and the token has'nt expired, null otherwise.
+     * @throws \Exception
+     */
+    public static function findByPasswordReset($token)
+    {
+         $token = new Token($token);
+         $hashed_token = $token->getHash();
+
+         $sql = 'SELECT * FROM users 
+                 WHERE password_reset_hash = :token_hash';
+
+         $db = static::getDB();
+         $stmt = $db->prepare($sql);
+
+         $stmt->bindValue(':token_hash', $hashed_token, PDO::PARAM_STR);
+         $stmt->setFetchMode(PDO::FETCH_CLASS, get_called_class());
+         $stmt->execute();
+
+         $user = $stmt->fetch();
+
+         if($user)
+         {
+              // Check password reset token hasn't expired
+              if(strtotime($user->password_reset_expires_at) > time())
+              {
+                   return $user;
+              }
+         }
+    }
+
+
+    /**
+     * Reset the password
+     *
+     * @param string $password The new password
+     *
+     * @return boolean True if the password was updated successfully, false otherwise
+     */
+     public function resetPassword($password)
+     {
+          $this->password = $password;
+
+          $this->validate();
+
+          if(empty($this->errors))
+          {
+               $password_hash = password_hash($this->password, PASSWORD_DEFAULT);
+
+               $sql = 'UPDATE users 
+                       SET password_hash = :password_hash,
+                           password_reset_hash = NULL,
+                           password_reset_expires_at = NULL 
+                       WHERE id = :id';
+
+               $db = static::getDB();
+               $stmt = $db->prepare($sql);
+
+               $stmt->bindValue(':id', $this->id, PDO::PARAM_INT);
+               $stmt->bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
+
+               return $stmt->execute();
+          }
+
+          return false;
+     }
 }
