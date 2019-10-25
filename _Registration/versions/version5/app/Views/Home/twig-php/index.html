@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+<h1>Welcome</h1>
+
+<?php if(isset($_SESSION['user_id'])): ?>
+User with ID <?= $_SESSION['user_id'] ?> is logged
+<?php else: ?>
+<a href="/signup/new">Sign up</a> or <a href="/login">Login</a>
+<?php endif; ?>
+{% endblock %}
