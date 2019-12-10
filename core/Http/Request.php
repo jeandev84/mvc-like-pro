@@ -54,7 +54,7 @@ class Request
      */
      public function server($key = null)
      {
-         return $this->getParam($key, $_POST);
+         return $this->getParam($key, $_SERVER);
      }
 
     /**
